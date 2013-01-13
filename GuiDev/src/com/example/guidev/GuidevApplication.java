@@ -5,12 +5,13 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-import de.cgz.ctrl.DisplayMode;
 import de.cgz.ctrl.PersonDetailController;
+import de.cgz.data.contact.PersonData;
+import de.cgz.data.ui.DisplayMode;
 import de.cgz.ui.person.detail.ContactPicture;
 import de.cgz.ui.person.detail.PersonDataForm;
 import de.cgz.ui.person.detail.PersonDetailView;
-import de.cgz.ui.person.detail.ZodiacSign;
+import de.cgz.ui.widgets.ZodiacSign;
 
 public class GuidevApplication extends Application {
 	@Override

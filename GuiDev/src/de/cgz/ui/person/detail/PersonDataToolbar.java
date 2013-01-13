@@ -5,8 +5,8 @@ import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 
-import de.cgz.ctrl.DisplayMode;
 import de.cgz.ctrl.PersonDetailController;
+import de.cgz.data.ui.DisplayMode;
 
 
 public class PersonDataToolbar extends VerticalLayout {
@@ -32,11 +32,15 @@ public class PersonDataToolbar extends VerticalLayout {
 		setHeight(100, Sizeable.UNITS_PERCENTAGE);
 		
 		for(Button b : buttons) {
-			b.setStyleName("toolbar-button");
+			b.setStyleName("toolbar-button icon-button");
 			b.setHeight(41, Sizeable.UNITS_PIXELS);
 			b.setWidth(41, Sizeable.UNITS_PIXELS);			
 			addComponent(b);
 		}
+		
+		VerticalLayout spacer = new VerticalLayout();
+		addComponent(spacer);
+		setExpandRatio(spacer, 1);
 
 		
 		addAddressButton.addListener(ctrl.getAddAddressButtonListener());

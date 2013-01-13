@@ -6,7 +6,9 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 
-import de.cgz.ctrl.DisplayMode;
+import de.cgz.data.ui.DisplayMode;
+import de.cgz.ui.widgets.GenderSign;
+import de.cgz.ui.widgets.ZodiacSign;
 
 
 public class ContactPicture extends CustomComponent {

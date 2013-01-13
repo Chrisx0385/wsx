@@ -5,5 +5,11 @@ import de.cgz.data.types.collection.collection.DataCollection;
 
 
 public interface DataContainer<T extends DataObject> extends DataCollection<T> {
+	T createDataObject();
 
+	Class<T> getType();
+	
+	T getSelectedDataObject();
+	
+	
 }

@@ -3,10 +3,16 @@ package de.cgz.ui.person.detail;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
-import de.cgz.ctrl.DisplayMode;
+import de.cgz.ctrl.AddressFormTitlebarController;
 import de.cgz.ctrl.PersonDetailController;
+import de.cgz.data.contact.PersonData;
+import de.cgz.data.types.collection.container.DataContainer;
+import de.cgz.data.ui.DisplayMode;
+import de.cgz.ui.widgets.Titlebar;
 
 
 public class PersonDetailView extends HorizontalLayout {
@@ -16,11 +22,13 @@ public class PersonDetailView extends HorizontalLayout {
 	private final PersonDataForm personDataForm;
 	private final ContactPicture contactPicture;
 	private final PersonDataToolbar toolbar;
+	
+	private final DataContainer<PersonData> dataContainer = null; //TODO
 
 	public PersonDetailView() {
 		ctrl = new PersonDetailController(this);
 		contactPicture = new ContactPicture();
-		personDataForm = new PersonDataForm(ctrl);
+		personDataForm = new PersonDataForm(ctrl, dataContainer);
 		toolbar = new PersonDataToolbar(ctrl);
 		init();
 	}
@@ -29,13 +37,25 @@ public class PersonDetailView extends HorizontalLayout {
 		this.setSizeFull();
 		this.addComponent(toolbar);
 		toolbar.setWidth(43, UNITS_PIXELS);
-		VerticalLayout content = new VerticalLayout();		
-		content.addComponent(createMainDataComponents());
-		this.addComponent(content);
-		this.setExpandRatio(content, 1);
 		
-
+		Panel contentPane = new Panel();
+		contentPane.setStyleName(Reindeer.PANEL_LIGHT);
 		
+		contentPane.setHeight("100%");
+		
+		VerticalLayout contentLayout = new VerticalLayout();	
+		contentLayout.setMargin(true);
+		contentLayout.setSpacing(true);
+		
+		contentPane.setContent(contentLayout);
+		
+		contentPane.addComponent(createMainDataComponents());
+		
+		Titlebar tb = new Titlebar(new AddressFormTitlebarController());
+		contentPane.addComponent(tb);
+		
+		this.addComponent(contentPane);
+		this.setExpandRatio(contentPane, 1);
 	}
 	
 	private Component createMainDataComponents() {

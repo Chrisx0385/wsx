@@ -1,5 +1,7 @@
 package de.cgz.data.types;
 
+import de.cgz.data.ui.DisplayMode;
+
 
 public abstract class AbstractDescriptor<T extends DataObject> extends AbstractDataObject implements Descriptor<T> {
 
@@ -13,6 +15,5 @@ public abstract class AbstractDescriptor<T extends DataObject> extends AbstractD
 	public Class<T> getType() {
 		return type;
 	}
-
 
 }
