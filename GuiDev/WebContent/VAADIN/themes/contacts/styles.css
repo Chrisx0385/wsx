@@ -118,3 +118,13 @@
 .aPicture {	
 	border: inset 1px grey;
 }
+
+.toolbar-button .v-button-wrap {
+	padding: 2px;
+	margin-left: 1px;	
+	margin-right: 1px;	
+}
+
+.v-toolbar {
+      background: #ccc url(images/gradient-v.png) repeat-y bottom left;
+}

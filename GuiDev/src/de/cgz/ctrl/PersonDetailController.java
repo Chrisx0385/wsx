@@ -25,6 +25,19 @@ public class PersonDetailController {
 		}
 	};
 	
+	private final ClickListener addAddressButtonListener = new ClickListener() {		
+		public void buttonClick(ClickEvent event) {
+		}
+	};	
+	private final ClickListener addNoticeButtonListener = new ClickListener() {		
+		public void buttonClick(ClickEvent event) {
+		}
+	};
+	private final ClickListener addPhoneButtonListener = new ClickListener() {		
+		public void buttonClick(ClickEvent event) {
+		}
+	};
+	
 	public PersonDetailController(PersonDetailView view) {
 		this.view = view;
 	}
@@ -40,6 +53,23 @@ public class PersonDetailController {
 	public ClickListener getCancelButtonListener() {
 		return cancelButtonListener;
 	}
+
+	
+	public ClickListener getAddAddressButtonListener() {
+		return addAddressButtonListener;
+	}
+
+	
+	public ClickListener getAddNoticeButtonListener() {
+		return addNoticeButtonListener;
+	}
+
+	
+	public ClickListener getAddPhoneButtonListener() {
+		return addPhoneButtonListener;
+	}
+	
+	
 	
 	
 

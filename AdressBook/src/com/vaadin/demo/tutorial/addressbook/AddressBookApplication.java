@@ -98,7 +98,7 @@ public class AddressBookApplication extends Application implements
 
         lo.setStyleName("toolbar");
 
-        lo.setWidth("100%");
+//        lo.setWidth("100%");
 
         Embedded em = new Embedded("", new ThemeResource("images/logo.png"));
         lo.addComponent(em);
