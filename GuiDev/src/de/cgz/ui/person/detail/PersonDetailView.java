@@ -1,4 +1,4 @@
-package de.cgz.ui;
+package de.cgz.ui.person.detail;
 
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Component;

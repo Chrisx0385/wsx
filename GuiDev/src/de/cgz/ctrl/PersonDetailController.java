@@ -3,8 +3,8 @@ package de.cgz.ctrl;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
-import de.cgz.ui.PersonDataForm;
-import de.cgz.ui.PersonDetailView;
+import de.cgz.ui.person.detail.PersonDataForm;
+import de.cgz.ui.person.detail.PersonDetailView;
 
 
 public class PersonDetailController {

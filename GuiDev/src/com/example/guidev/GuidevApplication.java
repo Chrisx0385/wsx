@@ -7,10 +7,10 @@ import com.vaadin.ui.Window;
 
 import de.cgz.ctrl.DisplayMode;
 import de.cgz.ctrl.PersonDetailController;
-import de.cgz.ui.ContactPicture;
-import de.cgz.ui.PersonDataForm;
-import de.cgz.ui.PersonDetailView;
-import de.cgz.ui.ZodiacSign;
+import de.cgz.ui.person.detail.ContactPicture;
+import de.cgz.ui.person.detail.PersonDataForm;
+import de.cgz.ui.person.detail.PersonDetailView;
+import de.cgz.ui.person.detail.ZodiacSign;
 
 public class GuidevApplication extends Application {
 	@Override

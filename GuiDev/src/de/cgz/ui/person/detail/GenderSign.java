@@ -1,4 +1,4 @@
-package de.cgz.ui;
+package de.cgz.ui.person.detail;
 
 import java.util.HashMap;
 import java.util.Map;
