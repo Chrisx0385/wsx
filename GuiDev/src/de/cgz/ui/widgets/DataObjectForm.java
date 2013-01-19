@@ -1,14 +1,8 @@
 package de.cgz.ui.widgets;
 
-import java.util.Arrays;
-
-import com.vaadin.data.Item;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.Form;
-import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -20,6 +14,7 @@ import de.cgz.data.types.TypeFactory;
 import de.cgz.data.types.collection.collection.ListDataCollection;
 import de.cgz.data.types.collection.container.DataContainer;
 import de.cgz.data.ui.DisplayMode;
+import de.cgz.data.utils.DataUtils;
 import de.cgz.ui.data.descriptors.UIDataDescriptors;
 import de.cgz.vaadin.ExtendedBeanItem;
 
@@ -27,6 +22,12 @@ import de.cgz.vaadin.ExtendedBeanItem;
 @SuppressWarnings("serial")
 public class DataObjectForm<T extends DataObject> extends Form {
 
+	protected final static DataUtils utils() {
+		return DataUtils.getInstance();
+	}
+	protected static TypeFactory factory() {
+		return TypeFactory.getInstance();
+	}
 	
 	private final Descriptor<T> descriptor;
 	private final DataContainer<T> dataContainer;
@@ -37,11 +38,14 @@ public class DataObjectForm<T extends DataObject> extends Form {
 	private DataObjectForm<? extends DataObject> parentForm;
 	
 	private FormFooter formFooter;
+	private DisplayMode displayMode = DisplayMode.DISPLAY;
 		
 	public DataObjectForm(DataContainer<T> dataContainer, Descriptor<T> descriptor, DataObjectForm<? extends DataObject> parentForm, FormFooterController ctrl) {
 		this.dataContainer = dataContainer;
 		this.descriptor = descriptor;
 		this.parentForm = parentForm;
+		dataObject = dataContainer.createDataObject();
+		
 		if(ctrl != null) {
 			formFooter = new FormFooter(ctrl);
 			setFooter(formFooter);
@@ -67,7 +71,6 @@ public class DataObjectForm<T extends DataObject> extends Form {
 		this.setLayout(new VerticalLayout());
 		
 		setWriteThrough(false);
-		setFormFieldFactory(createFieldFactory());
 	}
 	
 	public void setFormFooter(FormFooter formFooter) {
@@ -79,35 +82,29 @@ public class DataObjectForm<T extends DataObject> extends Form {
 		return formFooter;
 	}
 
-	protected FormFieldFactory createFieldFactory() {
-		return new DefaultFieldFactory() {
-			@Override
-			public Field createField(Item item, Object propertyId, Component uiContext) {
-				return super.createField(item, propertyId, uiContext);
-			}
-		};
-	}
+
 
 	public void addComponent(Component c) {
 		getLayout().addComponent(c);
 	}
 
 	
-	protected Descriptor<T> getDescriptor() {
+	public Descriptor<T> getDescriptor() {
 		return descriptor;
 	}
 
 	
-	protected DataContainer<T> getDataContainer() {
+	public DataContainer<T> getDataContainer() {
 		return dataContainer;
 	}
 
 	
-	protected T getDataObject() {
+	public T getDataObject() {
 		return dataObject;
 	}
 
 	public void setDisplayMode(DisplayMode mode) {
+		this.displayMode = mode;
 		dataObject = dataContainer.getSelectedDataObject();
 		switch (mode) {
 			case EDIT:
@@ -121,7 +118,7 @@ public class DataObjectForm<T extends DataObject> extends Form {
 				setReadOnly(true);	
 			break;
 		}
-		setItemDataSource(new ExtendedBeanItem<T>(dataObject), Arrays.asList(descriptor.getProperties(mode)));
+		setItemDataSource(new ExtendedBeanItem<T>(dataObject), descriptor.getProperties(mode).toList());
 	}
 
 	@Override
@@ -139,6 +136,26 @@ public class DataObjectForm<T extends DataObject> extends Form {
 		childForm.setParent(this);
 		getChildForms().add(childForm);
 	}
+	
+	public void removeChilds() {
+		for(DataObjectForm<? extends DataObject> childForm : childForms) {
+			childForm.removeParentForm();
+		}
+		childForms.clear();
+	}
+	
+	public void removeChilds(Iterable<DataObjectForm<? extends DataObject>> childForms) {		
+		for(DataObjectForm<? extends DataObject> childForm : childForms) {
+			removeChild(childForm);
+		}
+	}
+	
+	public void removeChild(DataObjectForm<? extends DataObject> childForm) {
+		childForms.remove(childForm);
+		childForm.removeParentForm();
+	}
+	
+	
 
 	public ListDataCollection<DataObjectForm<? extends DataObject>> getChildForms() {
 		return childForms;
@@ -147,8 +164,12 @@ public class DataObjectForm<T extends DataObject> extends Form {
 	public DataObjectForm<? extends DataObject> getParentForm() {
 		return parentForm;
 	}
-	protected void setParentForm(DataObjectForm<? extends DataObject> parentForm) {
+	
+	public void setParentForm(DataObjectForm<? extends DataObject> parentForm) {
 		this.parentForm = parentForm;
+	}
+	public void removeParentForm() {
+		setParentForm(null);
 	}
 
 	public DataObjectForm<? extends DataObject> getRootForm() {
@@ -157,6 +178,20 @@ public class DataObjectForm<T extends DataObject> extends Form {
 
 	public boolean isRootForm() {
 		return getParentForm() == null;
+	}
+
+	
+	public DisplayMode getDisplayMode() {
+		return displayMode;
+	}
+	
+	public void setDataObject(T dataObject) {
+		this.dataObject = dataObject;
+		dataObjectChanged(dataObject);
+	}
+	
+	protected void dataObjectChanged(T dataObject) {
+		//Hook
 	}
 	
 	

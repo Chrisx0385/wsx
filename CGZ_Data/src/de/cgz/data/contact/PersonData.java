@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import de.cgz.data.types.Gender;
 import de.cgz.data.types.collection.container.DataContainer;
+import de.cgz.data.types.collection.container.ListDataContainer;
 
 public class PersonData extends AbstractContactData implements NamingData {
 
@@ -17,15 +18,15 @@ public class PersonData extends AbstractContactData implements NamingData {
 
 	private Gender gender;
 
-	private DataContainer<Address> addresses;
+	private ListDataContainer<GermanAddress> addresses;
 
-	private DataContainer<Notice> notices;
+	private ListDataContainer<Notice> notices;
 
-	private DataContainer<Phone> phones;
+	private ListDataContainer<Phone> phones;
 
-	private DataContainer<Email> emails;
+	private ListDataContainer<Email> emails;
 
-	private DataContainer<Picture> pictures;
+	private ListDataContainer<Picture> pictures;
 
 	public String getBusinessName() {
 		return businessName;
@@ -67,27 +68,27 @@ public class PersonData extends AbstractContactData implements NamingData {
 		this.gender = gender;
 	}
 
-	public DataContainer<Address> getAddresses() {
+	public ListDataContainer<GermanAddress> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(DataContainer<Address> addresses) {
+	public void setAddresses(ListDataContainer<GermanAddress> addresses) {
 		this.addresses = addresses;
 	}
 
-	public DataContainer<Notice> getNotices() {
+	public ListDataContainer<Notice> getNotices() {
 		return notices;
 	}
 
-	public void setNotices(DataContainer<Notice> notices) {
+	public void setNotices(ListDataContainer<Notice> notices) {
 		this.notices = notices;
 	}
 
-	public DataContainer<Phone> getPhones() {
+	public ListDataContainer<Phone> getPhones() {
 		return phones;
 	}
 
-	public void setPhones(DataContainer<Phone> phones) {
+	public void setPhones(ListDataContainer<Phone> phones) {
 		this.phones = phones;
 	}
 
@@ -95,15 +96,15 @@ public class PersonData extends AbstractContactData implements NamingData {
 		return emails;
 	}
 
-	public void setEmails(DataContainer<Email> emails) {
+	public void setEmails(ListDataContainer<Email> emails) {
 		this.emails = emails;
 	}
 
-	public DataContainer<Picture> getPictures() {
+	public ListDataContainer<Picture> getPictures() {
 		return pictures;
 	}
 
-	public void setPictures(DataContainer<Picture> pictures) {
+	public void setPictures(ListDataContainer<Picture> pictures) {
 		this.pictures = pictures;
 	}
 

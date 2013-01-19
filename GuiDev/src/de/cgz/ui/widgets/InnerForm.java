@@ -12,12 +12,13 @@ public class InnerForm<T extends DataObject> extends DataObjectForm<T> {
 	private final InnerFormController ctrl;	
 	
 	private final Titlebar titlebar;
-	
+		
 
-	public InnerForm(InnerFormController ctrl, DataContainer<T> dataContainer) {
+	public InnerForm(InnerFormController ctrl, DataContainer<T> dataContainer, DataObjectForm<? extends DataObject> parent) {
 		super(dataContainer, ctrl.getFormFooterController());
 		this.ctrl = ctrl;
-
+		setParentForm(parent);
+		
 		titlebar = new Titlebar(ctrl.getTitlebarController());
 		init();
 	}

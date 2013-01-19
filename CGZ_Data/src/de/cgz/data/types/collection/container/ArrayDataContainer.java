@@ -18,7 +18,7 @@ import de.cgz.data.types.collection.collection.OrderedDataCollection;
 import de.cgz.data.types.collection.range.Range;
 
 
-public class ArrayDataContainer<T extends DataObject> extends AbstractDataObject implements DataContainer<T>, Iterable<T> {
+public class ArrayDataContainer<T extends DataObject> extends AbstractDataObject implements ListDataContainer<T>, Iterable<T> {
 	
 	private final ListDataCollection<T> dataCollection;
 	private final Class<T> type;

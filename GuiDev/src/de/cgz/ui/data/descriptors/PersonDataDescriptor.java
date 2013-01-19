@@ -11,10 +11,14 @@ public class PersonDataDescriptor extends AbstractDescriptor<PersonData> {
 		super(PersonData.class);
 	}
 
-	public static final String[] editProperties = { "businessName", "firstName", "lastName", "birthDay", "gender", "addresses", "notices", "phones", "emails", "pictures" };
+	public static final String[] editProperties = { "businessName", "firstName", "lastName", "birthDay", "gender"};
 	public static final String[] displayProperties = { "businessName", "firstName", "lastName", "birthDay", "gender", "addresses", "notices", "phones", "emails", "pictures" };
 	
-	public String[] getProperties(DisplayMode mode) {		
+	public static final String[] collectionProperties = {"addresses", "notices", "phones", "emails", "pictures"};
+	
+	
+	
+	public String[] getPropertiesArray(DisplayMode mode) {		
 		switch (mode) {
 			case CREATE:
 			case EDIT:
@@ -25,5 +29,13 @@ public class PersonDataDescriptor extends AbstractDescriptor<PersonData> {
 				return new String[0];
 		}
 	}
+
+
+
+	@Override
+	protected String[] getCollectionPropertiesArray(DisplayMode mode) {
+		return collectionProperties;
+	}
+
 
 }

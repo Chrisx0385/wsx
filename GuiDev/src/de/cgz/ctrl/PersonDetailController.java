@@ -3,6 +3,8 @@ package de.cgz.ctrl;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 
+import de.cgz.data.contact.PersonData;
+import de.cgz.ui.person.detail.PersonDataForm;
 import de.cgz.ui.person.detail.PersonDetailView;
 
 
@@ -10,6 +12,7 @@ import de.cgz.ui.person.detail.PersonDetailView;
 public class PersonDetailController implements FormFooterController {
 	
 	private final PersonDetailView view;
+	private final PersonDataForm personDataForm;
 	
 	private final ClickListener saveButtonListener = new ClickListener() {		
 		public void buttonClick(ClickEvent event) {
@@ -27,6 +30,7 @@ public class PersonDetailController implements FormFooterController {
 	
 	private final ClickListener addAddressButtonListener = new ClickListener() {		
 		public void buttonClick(ClickEvent event) {
+			PersonData createDataObject = personDataForm.getDataContainer().createDataObject();			
 		}
 	};	
 	private final ClickListener addNoticeButtonListener = new ClickListener() {		
@@ -40,6 +44,7 @@ public class PersonDetailController implements FormFooterController {
 	
 	public PersonDetailController(PersonDetailView view) {
 		this.view = view;
+		this.personDataForm = view.getPersonDataForm();
 	}
 
 	public ClickListener getSaveButtonListener() {

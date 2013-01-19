@@ -1,6 +1,11 @@
 package de.cgz.data.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.cgz.data.types.DataObject;
+import de.cgz.data.types.TypeFactory;
+import de.cgz.data.types.collection.collection.DataCollection;
 
 
 public final class DataUtils {
@@ -48,4 +53,48 @@ public final class DataUtils {
 		for(Object value : values)
 			if(value == null) throw new IllegalArgumentException("given value must not be null.");		
 	}
+	
+	public boolean isSomethingNull(Object... values) {
+		for(Object value : values)
+			if(value == null) return true;
+		
+		return false;
+	}
+	
+	public boolean isSomethingEmpty(Object... values) {
+		for(Object value : values)
+			if(isEmpty(value)) return true;
+		
+		return false;		
+	}
+	
+	public StringUtils getStringUtils() {
+		return StringUtils.getInstance();
+	}
+	
+	public ReflectionUtils getReflectionUtils() {
+		return ReflectionUtils.getInstance();
+	}
+	
+	public TypeFactory getTypeFactory() {
+		return TypeFactory.getInstance();
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public<T> DataCollection<T> toDataCollection(T... data) {
+		if(isEmpty(data)) {
+			return (DataCollection<T>) getTypeFactory().createListDataCollection();
+		}
+		return getTypeFactory().createListDataCollection(data);		
+	}
+	
+	public<T> Set<T> toSet(T... data) {
+		if(isEmpty(data)) {
+			return new HashSet<T>();
+		}
+		return getTypeFactory().createListDataCollection(data).toSet();		
+	}
+	
 }

@@ -7,14 +7,14 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
-import de.cgz.ctrl.AddressFormTitlebarController;
 import de.cgz.ctrl.PersonDetailController;
 import de.cgz.data.contact.PersonData;
+import de.cgz.data.types.TypeFactory;
 import de.cgz.data.types.collection.container.DataContainer;
 import de.cgz.data.ui.DisplayMode;
-import de.cgz.ui.widgets.Titlebar;
 
 
+@SuppressWarnings("serial")
 public class PersonDetailView extends HorizontalLayout {
 	
 	private final PersonDetailController ctrl;
@@ -23,13 +23,14 @@ public class PersonDetailView extends HorizontalLayout {
 	private final ContactPicture contactPicture;
 	private final PersonDataToolbar toolbar;
 	
-	private final DataContainer<PersonData> dataContainer = null; //TODO
+	private final DataContainer<PersonData> dataContainer = TypeFactory.getInstance().createDataContainer(PersonData.class); //TODO
 
 	public PersonDetailView() {
 		ctrl = new PersonDetailController(this);
 		contactPicture = new ContactPicture();
 		personDataForm = new PersonDataForm(ctrl, dataContainer);
 		toolbar = new PersonDataToolbar(ctrl);
+		
 		init();
 	}
 
@@ -51,9 +52,9 @@ public class PersonDetailView extends HorizontalLayout {
 		
 		contentPane.addComponent(createMainDataComponents());
 		
-		Titlebar tb = new Titlebar(new AddressFormTitlebarController());
-		contentPane.addComponent(tb);
-		
+//		Titlebar tb = new Titlebar(new AddressFormController().getTitlebarController());
+//		contentPane.addComponent(tb);
+//		
 		this.addComponent(contentPane);
 		this.setExpandRatio(contentPane, 1);
 	}
@@ -76,5 +77,22 @@ public class PersonDetailView extends HorizontalLayout {
 		personDataForm.setDisplayMode(mode);
 		contactPicture.setDisplayMode(mode);
 	}
+
+	
+	public PersonDataForm getPersonDataForm() {
+		return personDataForm;
+	}
+
+	
+	public ContactPicture getContactPicture() {
+		return contactPicture;
+	}
+
+	
+	public PersonDataToolbar getToolbar() {
+		return toolbar;
+	}
+	
+	
 
 }
