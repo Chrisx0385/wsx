@@ -80,6 +80,8 @@ public class PersonForm extends Form implements ClickListener {
                     return cities;
                 }
 
+
+
                 Field field = super.createField(item, propertyId, uiContext);
                 if (propertyId.equals("postalCode")) {
                     TextField tf = (TextField) field;

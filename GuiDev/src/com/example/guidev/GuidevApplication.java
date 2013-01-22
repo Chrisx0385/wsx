@@ -19,15 +19,15 @@ public class GuidevApplication extends Application {
 		setTheme("contacts");
 		Window mainWindow = new Window("Guidev Application");
 		Label label = new Label("Hello Vaadin user");
-		
+
         VerticalLayout layout = new VerticalLayout();
         layout.setSizeFull();
         PersonDetailView personDetailView = new PersonDetailView();
-        layout.addComponent(personDetailView);        
-		
+        layout.addComponent(personDetailView);
+
 		mainWindow.setContent(layout);
 		setMainWindow(mainWindow);
-		
+
 		personDetailView.setDisplayMode(DisplayMode.CREATE);
 	}
 
