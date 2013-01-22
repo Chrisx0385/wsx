@@ -153,8 +153,9 @@
 	width: 2px;
 	overflow: hidden;
 }
-
 .inner-form {
+}
+.inner-form-form {
 	background-color: #84a2c2;
 	
 }

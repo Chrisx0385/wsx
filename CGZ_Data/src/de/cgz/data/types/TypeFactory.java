@@ -11,7 +11,7 @@ import de.cgz.data.DataObjectCreator;
 import de.cgz.data.types.collection.collection.ArrayListDataCollectionImpl;
 import de.cgz.data.types.collection.collection.ListDataCollection;
 import de.cgz.data.types.collection.container.ArrayDataContainer;
-import de.cgz.data.types.collection.container.DataContainer;
+import de.cgz.data.types.collection.container.ListDataContainer;
 import de.cgz.data.types.collection.range.DiscreteRange;
 import de.cgz.data.types.collection.range.EndPoint;
 import de.cgz.data.types.collection.range.EndPoint.EndPointType;
@@ -71,19 +71,19 @@ public final class TypeFactory {
 	}
 
 	
-	public <T extends DataObject> DataContainer<T> createDataContainer() {
-		return (DataContainer<T>) createDataContainer(DataObject.class);
+	public ListDataContainer<DataObject> createDataContainer() {
+		return  createDataContainer(DataObject.class);
 	}
 	
-	public <T extends DataObject> DataContainer<T> createDataContainer(Class<T> type) {
+	public <T extends DataObject> ListDataContainer<T> createDataContainer(Class<T> type) {
 		return new ArrayDataContainer<T>(type);
 	}
 
-	public <T extends DataObject> DataContainer<T> createDataContainer(Class<T> type, Iterable<T> initialData) {
+	public <T extends DataObject> ListDataContainer<T> createDataContainer(Class<T> type, Iterable<T> initialData) {
 		return new ArrayDataContainer<T>(type, initialData);
 	}
 
-	public <T extends DataObject> DataContainer<T> createDataContainer(Class<T> type, T[] initialData) {
+	public <T extends DataObject> ListDataContainer<T> createDataContainer(Class<T> type, T[] initialData) {
 		return new ArrayDataContainer<T>(type, initialData);
 	}
 
@@ -107,7 +107,7 @@ public final class TypeFactory {
 		return new SimpleDiscreteRange<T>(min, EndPointType.INCLUSIVE, max, EndPointType.INCLUSIVE);
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public <T extends Comparable<T>> EndPoint<T> createEndPoint(T value, EndPointType type) {
 		return new SimpleEndPoint<T>(value, 0, type, RangeValueGenerators.getInstance().generator(value.getClass()));
 	}
@@ -149,7 +149,7 @@ public final class TypeFactory {
 			type = implementationMap.get(interfaceType);
 		}
 
-		return interfaceType;
+		return type;
 	}
 
 	public <T extends DataObject> T createDataObject(Class<T> type) {

@@ -51,10 +51,7 @@ public class ArrayListDataCollectionImpl<T> extends AbstractDataCollection<T> im
 	public T remove(final T data) {
 		T removedElement = find(new Statement<T>() {
 			public Object execute(T element, int index) {
-				if(data.equals(element)) {
-					return element;
-				}
-				return null;
+				return (data.equals(element));
 			}});		
 		this.data.remove(data);
 		return removedElement;

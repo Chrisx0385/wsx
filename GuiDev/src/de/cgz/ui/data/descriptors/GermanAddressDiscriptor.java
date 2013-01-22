@@ -20,8 +20,14 @@ public class GermanAddressDiscriptor extends AbstractDescriptor<GermanAddress> {
 		super(GermanAddress.class);
 	}
 
-	public String[] getProperties(DisplayMode mode) {
+	@Override
+	protected String[] getPropertiesArray(DisplayMode mode) {		
 		return properties;
+	}
+
+	@Override
+	protected String[] getCollectionPropertiesArray(DisplayMode mode) {		
+		return new String[0];
 	}
 	
 	

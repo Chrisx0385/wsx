@@ -9,7 +9,7 @@ import de.cgz.ui.person.detail.PersonDetailView;
 
 
 @SuppressWarnings("serial")
-public class PersonDetailController implements FormFooterController {
+public class PersonDetailController extends AbstractController implements FormFooterController {
 	
 	private final PersonDetailView view;
 	private final PersonDataForm personDataForm;
@@ -30,7 +30,9 @@ public class PersonDetailController implements FormFooterController {
 	
 	private final ClickListener addAddressButtonListener = new ClickListener() {		
 		public void buttonClick(ClickEvent event) {
-			PersonData createDataObject = personDataForm.getDataContainer().createDataObject();			
+			PersonData data = personDataForm.getDataObject();
+			data.getAddresses().add(data.getAddresses().createDataObject());
+			personDataForm.setDataObject(data);
 		}
 	};	
 	private final ClickListener addNoticeButtonListener = new ClickListener() {		

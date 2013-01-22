@@ -3,6 +3,7 @@ package de.cgz.ui.data.descriptors;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.cgz.data.contact.PersonData;
 import de.cgz.data.types.DataObject;
 import de.cgz.data.types.Descriptor;
 
@@ -39,5 +40,6 @@ public class UIDataDescriptors {
 	
 	private void registerDescriptors() {
 		register("de.cgz.data.contact.GermanAddress", new GermanAddressDiscriptor());
+		register(PersonData.class, new PersonDataDescriptor());
 	}
 }

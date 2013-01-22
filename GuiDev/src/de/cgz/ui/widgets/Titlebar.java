@@ -10,6 +10,7 @@ import com.vaadin.ui.HorizontalLayout;
 import de.cgz.ctrl.TitlebarController;
 
 
+@SuppressWarnings("serial")
 public class Titlebar extends HorizontalLayout {
 	
 	private final HorizontalLayout spacer = new HorizontalLayout();
@@ -25,11 +26,10 @@ public class Titlebar extends HorizontalLayout {
 		init();
 	}
 
-	protected void init() {
+	protected void init() {	
 		setStyleName("titlebar");
 		
 		setHeight("18px");
-		setWidth("200px");
 		
 		Embedded borderL = new Embedded();
 		Embedded borderR = new Embedded();

@@ -42,9 +42,6 @@ public class FormFooter extends HorizontalLayout {
 				edit.setVisible(true);
 				setVisible(true);
 			break;
-			case HIDE:
-				setVisible(false);
-			break;
 		}
 	}		
 }

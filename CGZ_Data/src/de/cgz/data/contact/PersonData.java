@@ -27,6 +27,17 @@ public class PersonData extends AbstractContactData implements NamingData {
 	private ListDataContainer<Email> emails;
 
 	private ListDataContainer<Picture> pictures;
+	
+	
+	public PersonData() {
+		addresses = factory().createDataContainer(GermanAddress.class);
+		notices = factory().createDataContainer(Notice.class);
+		phones = factory().createDataContainer(Phone.class);
+		emails = factory().createDataContainer(Email.class);
+		pictures = factory().createDataContainer(Picture.class);
+		
+		addresses.addNewDataObject();
+	}
 
 	public String getBusinessName() {
 		return businessName;
@@ -75,7 +86,7 @@ public class PersonData extends AbstractContactData implements NamingData {
 	public void setAddresses(ListDataContainer<GermanAddress> addresses) {
 		this.addresses = addresses;
 	}
-
+	
 	public ListDataContainer<Notice> getNotices() {
 		return notices;
 	}

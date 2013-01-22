@@ -177,7 +177,7 @@ public class ArrayDataContainer<T extends DataObject> extends AbstractDataObject
 			return dataObjectCreator.createDataObject();
 		}		
 		try {
-			return factory().getInstance().createDataObject(getType());
+			return factory().createDataObject(getType());
 		} catch (Exception e) {
 			//fall through
 		}		
@@ -186,6 +186,12 @@ public class ArrayDataContainer<T extends DataObject> extends AbstractDataObject
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("Can't create new instance from type '%s'", getType().getName()));
 		}
+	}
+	
+	public T addNewDataObject() {
+		T data = createDataObject();
+		add(data);
+		return data;
 	}
 
 	public Class<T> getType() {

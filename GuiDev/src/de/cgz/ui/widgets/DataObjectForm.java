@@ -1,5 +1,6 @@
 package de.cgz.ui.widgets;
 
+import com.vaadin.data.Buffered.SourceException;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Form;
@@ -13,6 +14,7 @@ import de.cgz.data.types.Statement;
 import de.cgz.data.types.TypeFactory;
 import de.cgz.data.types.collection.collection.ListDataCollection;
 import de.cgz.data.types.collection.container.DataContainer;
+import de.cgz.data.types.collection.container.ListDataContainer;
 import de.cgz.data.ui.DisplayMode;
 import de.cgz.data.utils.DataUtils;
 import de.cgz.ui.data.descriptors.UIDataDescriptors;
@@ -20,7 +22,7 @@ import de.cgz.vaadin.ExtendedBeanItem;
 
 
 @SuppressWarnings("serial")
-public class DataObjectForm<T extends DataObject> extends Form {
+public class DataObjectForm<T extends DataObject> extends VerticalLayout {
 
 	protected final static DataUtils utils() {
 		return DataUtils.getInstance();
@@ -29,9 +31,10 @@ public class DataObjectForm<T extends DataObject> extends Form {
 		return TypeFactory.getInstance();
 	}
 	
+	private final Form innerForm = new Form();
+	
 	private final Descriptor<T> descriptor;
-	private final DataContainer<T> dataContainer;
-	private T dataObject;
+	private final ListDataContainer<T> dataContainer;
 	
 	@SuppressWarnings({ "unchecked" })
 	private final ListDataCollection<DataObjectForm<? extends DataObject>> childForms = (ListDataCollection<DataObjectForm<? extends DataObject>>) TypeFactory.getInstance().createListDataCollection();
@@ -40,54 +43,45 @@ public class DataObjectForm<T extends DataObject> extends Form {
 	private FormFooter formFooter;
 	private DisplayMode displayMode = DisplayMode.DISPLAY;
 		
-	public DataObjectForm(DataContainer<T> dataContainer, Descriptor<T> descriptor, DataObjectForm<? extends DataObject> parentForm, FormFooterController ctrl) {
+	public DataObjectForm(ListDataContainer<T> dataContainer, Descriptor<T> descriptor, DataObjectForm<? extends DataObject> parentForm, FormFooterController ctrl) {
 		this.dataContainer = dataContainer;
 		this.descriptor = descriptor;
 		this.parentForm = parentForm;
-		dataObject = dataContainer.createDataObject();
+		dataContainer.setSelectedDataObject(dataContainer.createDataObject());
+		
+		getInnerForm().setWriteThrough(false);
 		
 		if(ctrl != null) {
-			formFooter = new FormFooter(ctrl);
-			setFooter(formFooter);
+			setFooter(new FormFooter(ctrl));
 		}
-		init();
 	}
 	
-	public DataObjectForm(DataContainer<T> dataContainer, DataObjectForm<? extends DataObject> parent, FormFooterController ctrl) {
+
+	public DataObjectForm(ListDataContainer<T> dataContainer, DataObjectForm<? extends DataObject> parent, FormFooterController ctrl) {
 		this(dataContainer, UIDataDescriptors.getInstance().getDescriptor(dataContainer.getType()), parent, ctrl);
 	}
 	
-	public DataObjectForm(DataContainer<T> dataContainer, FormFooterController ctrl) {
+	public DataObjectForm(ListDataContainer<T> dataContainer, FormFooterController ctrl) {
 		this(dataContainer, null, ctrl);
 	}
 	
-	public DataObjectForm(DataContainer<T> dataContainer) {
+	public DataObjectForm(ListDataContainer<T> dataContainer) {
 		this(dataContainer, null, null);
 	}
-	
-	
-	
-	private void init() {
-		this.setLayout(new VerticalLayout());
-		
-		setWriteThrough(false);
+
+	protected void init() {		
+		getInnerForm().getLayout().setMargin(true);
+		addComponent(getInnerForm());		
 	}
+
 	
-	public void setFormFooter(FormFooter formFooter) {
-		this.formFooter = formFooter;
-		super.setFooter(formFooter);
-	}
-	
-	public Layout getFormFooter() {
+	public Layout getFooter() {
 		return formFooter;
 	}
-
-
-
-	public void addComponent(Component c) {
-		getLayout().addComponent(c);
+	public void setFooter(FormFooter formFooter) {
+		this.formFooter = formFooter;
+		getInnerForm().setFooter(formFooter);		
 	}
-
 	
 	public Descriptor<T> getDescriptor() {
 		return descriptor;
@@ -100,28 +94,32 @@ public class DataObjectForm<T extends DataObject> extends Form {
 
 	
 	public T getDataObject() {
-		return dataObject;
+		return dataContainer.getSelectedDataObject();
 	}
 
-	public void setDisplayMode(DisplayMode mode) {
-		this.displayMode = mode;
-		dataObject = dataContainer.getSelectedDataObject();
+	public void setDisplayMode(final DisplayMode mode) {
+		this.displayMode = mode;		
 		switch (mode) {
 			case EDIT:
 				setReadOnly(false);		
 			break;
 			case CREATE:
 				setReadOnly(false);	
-				dataObject = dataContainer.createDataObject();
+				setDataObject(dataContainer.createDataObject());
 			break;
 			case DISPLAY:
 				setReadOnly(true);	
 			break;
 		}
-		setItemDataSource(new ExtendedBeanItem<T>(dataObject), descriptor.getProperties(mode).toList());
+		getInnerForm().setItemDataSource(new ExtendedBeanItem<T>(getDataObject()), descriptor.getProperties(mode).toList());
+		childForms.forEach(new Statement<DataObjectForm<? extends DataObject>>() {
+			public Object execute(DataObjectForm<? extends DataObject> element, int index) {
+				element.setDisplayMode(mode);
+				return null;
+			}});
 	}
 
-	@Override
+
 	public void commit() throws SourceException, InvalidValueException {
 		getChildForms().forEach(new Statement<DataObjectForm<? extends DataObject>>() {			
 			public Object execute(DataObjectForm<? extends DataObject> element, int index) {				
@@ -129,17 +127,19 @@ public class DataObjectForm<T extends DataObject> extends Form {
 				return null;
 			}
 		});
-		super.commit();
+		getInnerForm().commit();
 	}
 
 	public void addChildForm(DataObjectForm<? extends DataObject> childForm) {
-		childForm.setParent(this);
+		childForm.setParentForm(this);
+		addComponent(childForm);
 		getChildForms().add(childForm);
 	}
 	
 	public void removeChilds() {
 		for(DataObjectForm<? extends DataObject> childForm : childForms) {
 			childForm.removeParentForm();
+			removeComponent(childForm);
 		}
 		childForms.clear();
 	}
@@ -153,6 +153,7 @@ public class DataObjectForm<T extends DataObject> extends Form {
 	public void removeChild(DataObjectForm<? extends DataObject> childForm) {
 		childForms.remove(childForm);
 		childForm.removeParentForm();
+		removeComponent(childForm);
 	}
 	
 	
@@ -186,12 +187,15 @@ public class DataObjectForm<T extends DataObject> extends Form {
 	}
 	
 	public void setDataObject(T dataObject) {
-		this.dataObject = dataObject;
+		dataContainer.setSelectedDataObject(dataObject);
 		dataObjectChanged(dataObject);
 	}
 	
 	protected void dataObjectChanged(T dataObject) {
 		//Hook
+	}
+	public Form getInnerForm() {
+		return innerForm;
 	}
 	
 	

@@ -46,6 +46,9 @@ public final class DataUtils {
 		if(value instanceof Iterable) return !((Iterable)value).iterator().hasNext();
 		if(value instanceof DataObject) return !((DataObject) value).isEmpty();
 		
+		String val = value.toString();
+		if(val == null) return true;	//Vadin implementiert toString mit null als moeglichem retVal.	
+		
 		return value.toString().trim().length() == 0;
 	}
 	

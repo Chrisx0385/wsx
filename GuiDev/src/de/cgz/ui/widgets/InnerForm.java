@@ -2,7 +2,8 @@ package de.cgz.ui.widgets;
 
 import de.cgz.ctrl.InnerFormController;
 import de.cgz.data.types.DataObject;
-import de.cgz.data.types.collection.container.DataContainer;
+import de.cgz.data.types.collection.container.ListDataContainer;
+import de.cgz.data.ui.DisplayMode;
 
 
 public class InnerForm<T extends DataObject> extends DataObjectForm<T> {
@@ -14,21 +15,35 @@ public class InnerForm<T extends DataObject> extends DataObjectForm<T> {
 	private final Titlebar titlebar;
 		
 
-	public InnerForm(InnerFormController ctrl, DataContainer<T> dataContainer, DataObjectForm<? extends DataObject> parent) {
-		super(dataContainer, ctrl.getFormFooterController());
+	public InnerForm(InnerFormController ctrl, ListDataContainer<T> dataContainer, DataObjectForm<? extends DataObject> parent) {
+		super(dataContainer, parent, ctrl.getFormFooterController());
+		ctrl.setInnerForm(this);
 		this.ctrl = ctrl;
-		setParentForm(parent);
 		
 		titlebar = new Titlebar(ctrl.getTitlebarController());
 		init();
 	}
 
-	private void init() {
-		getLayout().setStyleName("inner-form");
+	protected void init() {	
+		super.init();
+		setStyleName("inner-form");
+		getInnerForm().setStyleName("inner-form-form");
+		getInnerForm().setWidth("250px");
 		
-		addComponent(titlebar);		
+		addComponentAsFirst(titlebar);	
+		titlebar.setWidth("250px");
 	}
 
+	@Override
+	public void setDisplayMode(DisplayMode mode) {
+		super.setDisplayMode(mode);
+	}
 
+	public void hide(boolean hide) {
+		getInnerForm().setVisible(hide);		
+	}
+	public boolean isHidden() {
+		return getInnerForm().isVisible();
+	}
 
 }
